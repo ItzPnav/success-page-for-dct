@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DCT — Auth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --neon: #00cfff;
+      --neon-dim: #009bcc;
+      --neon-glow: rgba(0, 207, 255, 0.18);
+      --bg: #090d10;
+      --surface: #0d1520;
+      --border: #172035;
+      --text: #c8eeff;
+      --muted: #3a6080;
+      --danger: #ff4d6d;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 2rem 1.5rem;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      color: var(--neon);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--neon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .terminal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .terminal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--neon);
+      opacity: 0.6;
+    }
+
+    .term-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .term-title {
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: auto;
+      letter-spacing: 0.1em;
+    }
+
+    .line {
+      font-size: 13px;
+      line-height: 1.9;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .line.visible { opacity: 1; transform: translateY(0); }
+
+    .prompt { color: var(--neon); flex-shrink: 0; }
+    .cmd { color: var(--text); }
+    .ok { color: var(--neon); }
+    .warn { color: #ffcc44; }
+    .err { color: var(--danger); }
+    .dim { color: var(--muted); }
+
+    .status-block {
+      margin-top: 1.75rem;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      background: rgba(0, 255, 136, 0.03);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .status-block.visible { display: flex; }
+
+    .status-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .status-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: var(--neon);
+    }
+
+    .status-sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .status-block.error .status-title { color: var(--danger); }
+    .status-block.error { background: rgba(255, 77, 109, 0.04); border-color: rgba(255, 77, 109, 0.25); }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{ opacity:1 } 50%{ opacity:0 } }
+
+    .scanline {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.04) 2px,
+        rgba(0,0,0,0.04) 4px
+      );
+      z-index: 999;
+    }
+
+    @media (max-width: 520px) {
+      .container { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<div class="container">
+  <div class="logo">
+    <div class="logo-icon">▶</div>
+    DCT — Daily Coding Tracker
+  </div>
+
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <span class="term-title">auth.bridge / v1</span>
+    </div>
+
+    <div id="lines">
+      <div class="line" id="l1"><span class="prompt">$</span><span class="cmd">dct auth --provider google</span></div>
+      <div class="line" id="l2"><span class="prompt">→</span><span class="dim">intercepting oauth callback...</span></div>
+      <div class="line" id="l3"><span class="prompt">→</span><span class="dim">parsing session token...</span></div>
+      <div class="line" id="l4"><span class="prompt">→</span><span class="dim">injecting into extension storage...</span></div>
+      <div class="line" id="l5"><span class="prompt">✓</span><span class="ok" id="final-line">access granted<span class="blink">_</span></span></div>
+    </div>
+
+    <div class="status-block" id="status-ok">
+      <div class="status-icon">✦</div>
+      <div class="status-title">authentication complete</div>
+      <div class="status-sub">You're logged in. Return to your browser<br>and start tracking your solves.</div>
+      <div class="status-sub" id="countdown-text" style="color: var(--muted); margin-top: 4px;">closing in 5s...</div>
+      <button id="close-btn" onclick="window.close()" style="margin-top:10px;background:transparent;border:1px solid var(--neon);color:var(--neon);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:0.1em;padding:6px 18px;cursor:pointer;opacity:0.8;">close this tab</button>
+    </div>
+
+    <div class="status-block error" id="status-err">
+      <div class="status-icon">✕</div>
+      <div class="status-title">authentication failed</div>
+      <div class="status-sub" id="err-msg">No session token found in URL.<br>Try logging in again from the extension.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const delays = [0, 600, 1100, 1600, 2200];
+  const lines = ['l1','l2','l3','l4','l5'];
+
+  function showLine(i) {
+    setTimeout(() => {
+      document.getElementById(lines[i]).classList.add('visible');
+    }, delays[i]);
+  }
+
+  function extractToken() {
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
+    const type = params.get('type');
+    return { accessToken, refreshToken, type };
+  }
+
+  function startCountdown() {
+    let secs = 5;
+    const el = document.getElementById('countdown-text');
+    const tick = setInterval(() => {
+      secs--;
+      if (secs <= 0) { clearInterval(tick); window.close(); }
+      else { el.textContent = 'closing in ' + secs + 's...'; }
+    }, 1000);
+  }
+
+  function finish(success, errText) {
+    setTimeout(() => {
+      document.getElementById('status-ok').classList.toggle('visible', success);
+      document.getElementById('status-err').classList.toggle('visible', !success);
+      if (!success && errText) {
+        document.getElementById('err-msg').textContent = errText;
+      }
+      if (!success) {
+        document.getElementById('final-line').innerHTML = '<span class="err">auth failed</span>';
+      }
+      if (success) { startCountdown(); }
+    }, 2600);
+  }
+
+  lines.forEach((_, i) => showLine(i));
+
+  const { accessToken, refreshToken, type } = extractToken();
+
+  if (accessToken) {
+    chrome?.runtime?.sendMessage(
+      { type: 'DCT_AUTH_TOKEN', accessToken, refreshToken },
+      () => {}
+    );
+
+    window.postMessage({ type: 'DCT_AUTH_TOKEN', accessToken, refreshToken }, '*');
+
+    finish(true);
+  } else {
+    finish(false, 'No session token found in URL.\nTry logging in again from the extension.');
+  }
+</script>
+</body>
+</html>
