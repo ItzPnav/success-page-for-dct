@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DCT — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #080d14;
+    --bg2:     #0d1520;
+    --bg3:     #111e2e;
+    --border:  rgba(0,212,255,0.12);
+    --border2: rgba(0,212,255,0.28);
+    --neon:    #00d4ff;
+    --text:    #deeaf6;
+    --dim:     #6a8faa;
+    --mute:    #344d62;
+    --glow:    0 0 14px rgba(0,212,255,0.25);
+    --grid-color: rgba(0,180,255,0.028);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events:none; z-index:0;
+  }
+  .page {
+    position:relative; z-index:1;
+    max-width: 820px; margin:0 auto;
+    padding: 56px 24px 80px;
+  }
+  .header {
+    display:flex; align-items:center; gap:14px;
+    padding: 16px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 32px;
+  }
+  .header-logo-box {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--neon);
+    border-radius: 8px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 0 12px rgba(0,212,255,0.2);
+    flex-shrink:0; font-size:18px;
+  }
+  .header-title {
+    font-family:'Orbitron', sans-serif;
+    font-weight:900; font-size:16px; letter-spacing:3px;
+  }
+  .header-sub {
+    font-family:'Share Tech Mono', monospace;
+    font-size:10px; letter-spacing:2px; color:var(--dim);
+    text-transform:uppercase;
+  }
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 28px 8px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family:'Orbitron', sans-serif;
+    font-size: 22px; letter-spacing:1px;
+    color: var(--neon);
+    margin-bottom: 6px;
+  }
+  .updated {
+    font-family:'Share Tech Mono', monospace;
+    font-size: 11px; color: var(--dim);
+    letter-spacing:1px; margin-bottom: 24px;
+  }
+  h2 {
+    font-family:'Share Tech Mono', monospace;
+    font-size: 13px; letter-spacing:1.5px;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin: 28px 0 10px;
+    padding-bottom:6px;
+    border-bottom: 1px solid var(--border);
+  }
+  p, li { color: var(--text); line-height:1.7; margin-bottom: 14px; font-size:14px; }
+  strong { color: var(--neon); font-weight:600; }
+  ul { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 8px; }
+  a { color: var(--neon); }
+  .footer {
+    text-align:center;
+    font-family:'Share Tech Mono', monospace;
+    font-size:11px; color:var(--mute);
+    letter-spacing:2px; margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-logo-box">🔒</div>
+    <div>
+      <div class="header-title">DCT</div>
+      <div class="header-sub">Privacy Policy</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h1>Privacy Policy for Daily Coding Tracker Pro (DCT)</h1>
+    <div class="updated">LAST UPDATED · JUNE 2026</div>
+
+    <p>Daily Coding Tracker Pro ("DCT", "we", "the extension") is committed to protecting your privacy. This policy explains what data we collect, how it is used, and your rights regarding that data.</p>
+
+    <h2>1. Information We Collect</h2>
+    <p><strong>Personally Identifiable Information</strong><br>
+    When you sign in with Google, we collect your Google account email address and a unique user ID via Firebase Authentication. This is used solely to associate your solve history with your account for cloud sync.</p>
+    <p><strong>Solve Activity Data</strong><br>
+    DCT automatically detects and stores records of problems you solve on LeetCode, Codeforces, CodeChef, and HackerRank, including problem name, platform, difficulty rating, and timestamp.</p>
+    <p><strong>Local Error Logs</strong><br>
+    A rolling log of up to 200 technical error entries is stored locally to help diagnose extension issues. These logs may be synced to Firestore for debugging purposes and do not contain personal browsing content.</p>
+
+    <h2>2. What We Do NOT Collect</h2>
+    <p>We do not collect health information, financial or payment information, passwords or credentials from third-party sites, personal communications (emails, chats), precise location data, full web browsing history, or keystroke/mouse activity.</p>
+
+    <h2>3. How We Use Your Information</h2>
+    <p>Your data is used exclusively to detect and log your problem-solving activity, calculate streaks and analytics, sync your solve history across devices, and diagnose technical errors. We do not use your data for advertising, profiling, or any purpose unrelated to DCT's core function.</p>
+
+    <h2>4. Data Storage</h2>
+    <p>Solve history and logs are stored locally on your device using <code>chrome.storage.local</code>. If you sign in, this data is also synced to a private Firebase Firestore database associated with your account. Local data is automatically cleared when you log out.</p>
+
+    <h2>5. Data Sharing</h2>
+    <p>We do not sell, rent, or transfer your personal data to third parties. Data is shared only with Firebase (Google) as our cloud infrastructure provider, solely to deliver the syncing functionality described above.</p>
+
+    <h2>6. Data Retention &amp; Deletion</h2>
+    <p>You can delete your locally stored data at any time by logging out of the extension or clearing extension storage via Chrome settings. To request deletion of your cloud-synced data, contact us at the email below.</p>
+
+    <h2>7. Permissions Used</h2>
+    <ul>
+      <li><strong>storage</strong> — to save your solve history and preferences locally</li>
+      <li><strong>identity</strong> — to authenticate you via Google Sign-In</li>
+      <li><strong>tabs</strong> — to manage the OAuth login tab</li>
+      <li><strong>host permissions</strong> — to read solve status from supported coding platforms and communicate with Firebase</li>
+    </ul>
+
+    <h2>8. Children's Privacy</h2>
+    <p>DCT is not directed at children under 13, and we do not knowingly collect data from children under 13.</p>
+
+    <h2>9. Changes to This Policy</h2>
+    <p>We may update this privacy policy from time to time. Changes will be reflected with an updated "Last updated" date above.</p>
+
+    <h2>10. Contact</h2>
+    <p>If you have questions about this privacy policy or your data, contact us at: <strong>katakam.pranav@gmail.com</strong></p>
+  </div>
+
+  <div class="footer">DCT © 2026 · MANIFEST V3</div>
+</div>
+</body>
+</html>
