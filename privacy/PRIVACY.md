@@ -58,4 +58,4 @@ We may update this privacy policy from time to time. Changes will be reflected w
 
 ## 10. Contact
 
-If you have questions about this privacy policy or your data, contact us at: **[your email here]**
+If you have questions about this privacy policy or your data, contact us at: **katakam.pranav@gmail.com**
